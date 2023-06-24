@@ -44,9 +44,7 @@ public class User implements UserDetails {
 
     @JsonIgnore
     @ManyToMany
-    List<Notification> notifications=  new ArrayList<>();
-
-
+    List<Notification> notifications = new ArrayList<>();
 
 
     @Transient

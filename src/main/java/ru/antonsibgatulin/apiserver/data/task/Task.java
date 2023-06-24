@@ -50,6 +50,7 @@ public class Task {
     private Long timeCreate;
     private Long countLike;
     private Long countView;
+    private Integer countRespond;
 
     public void clear(RespondRepository respondRepository) {
         respondRepository.deleteAll(responds);
