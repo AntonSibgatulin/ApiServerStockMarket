@@ -6,4 +6,9 @@ import lombok.Data;
 public class RequestBodyAuth {
     private String email;
     private String password;
+
+    public RequestBodyAuth(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 }

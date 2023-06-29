@@ -4,11 +4,9 @@ package ru.antonsibgatulin.apiserver.controllers.profile;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.antonsibgatulin.apiserver.controllers.profile.service.ProfileService;
+import ru.antonsibgatulin.apiserver.data.user.User;
 
 @RequiredArgsConstructor
 @RestController
@@ -23,5 +21,12 @@ public class ProfileController {
         return profileService.getProfile(id);
 
     }
+
+    @PostMapping({"/getMe","/getMe/"})
+    public User responseEntity(){
+        return profileService.getMe();
+    }
+
+
 
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import ru.antonsibgatulin.apiserver.data.user.User;
 
 import java.security.Key;
+import java.util.Date;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -41,7 +42,7 @@ public class JwtService {
 
 
     public String generateToken(Map<String,Object> extractClaims, UserDetails userDetails){
-        return Jwts.builder().setClaims(extractClaims).setSubject(userDetails.getUsername()).signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
+        return Jwts.builder().setClaims(extractClaims).setSubject(userDetails.getUsername()).signWith(getSigningKey(), SignatureAlgorithm.HS256).setIssuedAt(new Date(System.currentTimeMillis())).compact();
     }
 
 

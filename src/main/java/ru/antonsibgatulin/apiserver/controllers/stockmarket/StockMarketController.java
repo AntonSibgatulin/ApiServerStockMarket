@@ -15,8 +15,8 @@ public class StockMarketController {
     private final StockService stockService;
 
 
-    @GetMapping("/main/{page}")
-    public ResponseEntity main(@PathParam("page") Integer id){
+    @PostMapping("/main/{page}")
+    public ResponseEntity main(@PathVariable("page") Integer id){
         return stockService.main(id);
     }
 

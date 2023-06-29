@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.antonsibgatulin.apiserver.data.user.User;
 import ru.antonsibgatulin.apiserver.data.user.repository.UserRepository;
 import ru.antonsibgatulin.apiserver.services.HelpService;
+import ru.antonsibgatulin.apiserver.utils.ClassUtils;
 
 @Service
 public record ProfileService(UserRepository userRepository) {
@@ -22,11 +23,7 @@ public record ProfileService(UserRepository userRepository) {
     }
 
 
-
-
-
-
-
-
-
+    public User getMe() {
+        return ClassUtils.getUser();
+    }
 }

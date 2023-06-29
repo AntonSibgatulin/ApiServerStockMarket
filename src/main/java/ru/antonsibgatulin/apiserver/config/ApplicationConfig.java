@@ -19,6 +19,7 @@ import ru.antonsibgatulin.apiserver.data.respond.mapper.ResponeMapper;
 import ru.antonsibgatulin.apiserver.data.task.Task;
 import ru.antonsibgatulin.apiserver.data.task.TypeTask;
 import ru.antonsibgatulin.apiserver.data.task.mapper.TaskMapper;
+import ru.antonsibgatulin.apiserver.data.user.Role;
 import ru.antonsibgatulin.apiserver.data.user.User;
 import ru.antonsibgatulin.apiserver.data.user.mapper.UserMapper;
 import ru.antonsibgatulin.apiserver.data.user.repository.UserRepository;
@@ -70,8 +71,8 @@ public class ApplicationConfig {
                 user.setEmail(requestBodyRegUser.getEmail());
                 user.setPassword(requestBodyRegUser.getPassword());
                 user.setProfile(requestBodyRegUser.getProfile());
-
-                return null;
+                user.setRole(Role.USER);
+                return user;
             }
         };
     }
@@ -86,9 +87,10 @@ public class ApplicationConfig {
                 task.setName(requestTaskCreate.getName());
                 task.setDescription(requestTaskCreate.getDescription());
                 task.setPrice(requestTaskCreate.getPrice());
+                task.setCountRespond(requestTaskCreate.getCountRespond());
                 task.setBetterPrice(requestTaskCreate.getBetterPrice());
                 task.setTimeCreate(requestTaskCreate.getTimeCreate());
-                task.setCountLike(task.getCountLike());
+                task.setCountLike(requestTaskCreate.getCountLike());
                 task.setCountView(requestTaskCreate.getCountView());
                 var enumListConventer = new EnumListConverter();
                 List<TypeTask> typeTasks = enumListConventer.convertToEntityAttribute(requestTaskCreate.getTypeTasks());

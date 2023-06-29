@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.antonsibgatulin.apiserver.data.notification.Notification;
+
 import ru.antonsibgatulin.apiserver.data.profile.Profile;
 import ru.antonsibgatulin.apiserver.data.token.Token;
 
@@ -41,41 +41,47 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-
+/*
     @JsonIgnore
     @ManyToMany
     List<Notification> notifications = new ArrayList<>();
-
+*/
 
     @Transient
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Token token;
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
+    @JsonIgnore
     @Override
     public String getUsername() {
         return email;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return false;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

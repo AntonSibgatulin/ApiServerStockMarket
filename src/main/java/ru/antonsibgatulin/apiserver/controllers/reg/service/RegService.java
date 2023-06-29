@@ -26,6 +26,7 @@ public record RegService(UserMapper userMapper, JwtService jwtService, TokenRepo
             return HelpService.handleError("Email already using", HttpStatus.ALREADY_REPORTED);
         }
         var user = userMapper.fromRequestRegUserToUser(requestBodyRegUser);
+
         userRepository.save(user);
         var token = generateToken(user);
         var tokenEntity = new Token(token,user);

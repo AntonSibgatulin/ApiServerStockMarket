@@ -40,10 +40,12 @@ public class Task {
 
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
 
 
+    @JsonIgnore
     @Convert(converter = EnumListConverter.class)
     private List<TypeTask> typeTasks = new ArrayList<>();
 

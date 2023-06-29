@@ -20,7 +20,7 @@ public record StockService(TaskRepository taskRepository) {
             id = 0;
         }
         Pageable pageable = PageRequest.of(id,PAGE_SIZE, Sort.by("countView").descending());
-        return ResponseEntity.ok(taskRepository.findAll(pageable));
+        return ResponseEntity.ok(taskRepository.findAll(pageable).stream().toList());
     }
 
 

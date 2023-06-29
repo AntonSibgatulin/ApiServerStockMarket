@@ -16,7 +16,10 @@ import ru.antonsibgatulin.apiserver.data.token.repository.TokenRepository;
 import ru.antonsibgatulin.apiserver.data.user.User;
 import ru.antonsibgatulin.apiserver.data.user.repository.UserRepository;
 
+import javax.swing.text.html.Option;
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -46,7 +49,14 @@ public class JwtAuthencationFilter extends OncePerRequestFilter {
         }
 
         if(email != null){
-            Token tokenEntity =  tokenRepository.getTokenByToken(token);
+            //Token tokenEntity =  tokenRepository.getTokenByToken(token).stream().toList().get(0);
+            Optional<Token> optionalToken = tokenRepository.getTokenByToken(token);
+            List<Token> list = optionalToken.stream().toList();
+            if(list.size()<=0){
+                filterChain.doFilter(request,response);
+                return;
+            }
+            Token tokenEntity = list.get(0);
             if(token != null) {
 
                 user = tokenEntity.getUser();

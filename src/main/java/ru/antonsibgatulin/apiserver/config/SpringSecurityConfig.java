@@ -16,9 +16,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SpringSecurityConfig {
     private final JwtAuthencationFilter jwtAuthencationFilter;
     private final AuthenticationProvider authenticationProvider;
-@Bean
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeHttpRequests().requestMatchers("/api/v1/auth/**","/api/v1/reg/**","/api/v1/reg/","/api/v1/auth/").permitAll().anyRequest().authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        http.csrf().disable().authorizeHttpRequests()
+                .requestMatchers("/api/v1/auth/**", "/api/v1/reg/**", "/api/v1/reg/", "/api/v1/auth/").permitAll().anyRequest().authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authenticationProvider(authenticationProvider).addFilterBefore(jwtAuthencationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
