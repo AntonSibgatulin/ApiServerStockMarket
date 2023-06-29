@@ -1,37 +1,46 @@
 package ru.antonsibgatulin.apiserver.data.task;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.annotation.Nullable;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import ru.antonsibgatulin.apiserver.data.user.User;
+
+@Entity
+@NoArgsConstructor
+
+@Data
 public class ActionTask {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Enumerated(EnumType.STRING)
     private TaskType taskType;
 
-
+    @ManyToOne
+    @JoinColumn(nullable = true)
     private Task task;
 
-    private  boolean private_task=false;
+    private boolean private_task;
 
+    @Column(nullable = true)
+    private String message;
 
-    public TaskType getTaskType() {
-        return taskType;
-    }
+    private Long time;
 
-    public void setTaskType(TaskType taskType) {
-        this.taskType = taskType;
-    }
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Task getTask() {
-        return task;
-    }
-
-    public void setTask(Task task) {
+    public ActionTask(Task task) {
         this.task = task;
+        time=System.currentTimeMillis();
+        private_task = false;
+        taskType = TaskType.CREATE_PURCHASES;
+
     }
-
-    public boolean isPrivate_task() {
-        return private_task;
-    }
-
-    public void setPrivate_task(boolean private_task) {
-        this.private_task = private_task;
-    }
-
-
 }

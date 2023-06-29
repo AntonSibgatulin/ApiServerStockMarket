@@ -20,12 +20,14 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "VARCHAR(150)")
+
+    @Column(columnDefinition = "VARCHAR(35)")
     private String name;
     @Column(columnDefinition = "VARCHAR(4096)")
     private String description;
     private Integer price;
     private Integer betterPrice;
+
 
     @ManyToMany
     @JoinTable

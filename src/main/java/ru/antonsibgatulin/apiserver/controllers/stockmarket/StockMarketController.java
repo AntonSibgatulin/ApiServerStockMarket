@@ -1,11 +1,14 @@
 package ru.antonsibgatulin.apiserver.controllers.stockmarket;
 
+import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.function.EntityResponse;
+import ru.antonsibgatulin.apiserver.controllers.stockmarket.request.RespondRequest;
 import ru.antonsibgatulin.apiserver.controllers.stockmarket.service.StockService;
+import ru.antonsibgatulin.apiserver.controllers.tasks.service.TaskService;
 
 @RestController
 @RequiredArgsConstructor
@@ -13,6 +16,8 @@ import ru.antonsibgatulin.apiserver.controllers.stockmarket.service.StockService
 public class StockMarketController {
 
     private final StockService stockService;
+    private final TaskService taskService;
+
 
 
     @PostMapping("/main/{page}")
@@ -24,6 +29,13 @@ public class StockMarketController {
     public ResponseEntity search(){
         return null;
     }
+
+
+    @PostMapping("/respone")
+    public ResponseEntity respone(@Valid @RequestBody RespondRequest respondRequest){
+        return taskService.respone(respondRequest);
+    }
+
 
 
 
