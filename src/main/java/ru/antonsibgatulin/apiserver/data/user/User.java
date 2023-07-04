@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import ru.antonsibgatulin.apiserver.data.notification.Notification;
 import ru.antonsibgatulin.apiserver.data.profile.Profile;
 import ru.antonsibgatulin.apiserver.data.token.Token;
 
@@ -41,11 +42,10 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-/*
+
     @JsonIgnore
-    @ManyToMany
-    List<Notification> notifications = new ArrayList<>();
-*/
+    @ManyToMany(cascade = CascadeType.MERGE)
+    private List<Notification> notifications;
 
     @Transient
     @JsonInclude(JsonInclude.Include.NON_NULL)

@@ -110,6 +110,9 @@ public record TaskService(TaskMapper taskMapper, TaskRepository taskRepository, 
         var user = ClassUtils.getUser();
 
         Task task = taskRepository.getTaskById(respondRequest.getId());
+        if(task == null){
+            return ResponseEntity.status(400).body("Error");
+        }
 
         if(task.getUser().getId() == user.getId()){
             var jsonObject = new JSONObject();
@@ -140,5 +143,31 @@ public record TaskService(TaskMapper taskMapper, TaskRepository taskRepository, 
     }
 
 
+    public ResponseEntity checkRespone(Long id) {
 
+        var user = ClassUtils.getUser();
+
+        Task task = taskRepository.getTaskById(id);
+        if(task == null){
+            return ResponseEntity.status(400).body("Error");
+        }
+
+        if(task.getUser().getId() == user.getId()){
+            var jsonObject = new JSONObject();
+            jsonObject.put("type","MY_TASK");
+            return ResponseEntity.ok(jsonObject);
+        }
+
+
+        var jsonObject = new JSONObject();
+
+        for(Respond respond: task.getRespond()){
+            if(respond.getUser().getId() == user.getId()){
+                jsonObject.put("type","ALREADY_EXIST");
+                break;
+            }
+        }
+        return ResponseEntity.ok(jsonObject);
+
+    }
 }

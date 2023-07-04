@@ -29,7 +29,7 @@ public class Task {
     private Integer betterPrice;
 
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable
     @JsonIgnore
     private List<Respond> responds = new ArrayList<>();

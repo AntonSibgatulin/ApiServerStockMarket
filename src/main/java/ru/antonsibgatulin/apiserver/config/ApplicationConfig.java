@@ -124,7 +124,7 @@ public class ApplicationConfig {
                 respond.setMessage(requestRespone.getMessage());
                 respond.setPrice(requestRespone.getPrice());
                 respond.setCountDay(requestRespone.getCountDay());
-                respond.setType(requestRespone.getType());
+                //respond.setType(requestRespone.getType());
                 respond.setTime(System.currentTimeMillis());
                 return respond;
             }

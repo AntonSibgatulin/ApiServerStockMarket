@@ -36,6 +36,12 @@ public class StockMarketController {
         return taskService.respone(respondRequest);
     }
 
+    @GetMapping("/check")
+    public ResponseEntity checkRespone(@RequestParam("id") Long id){
+        return taskService.checkRespone(id);
+
+    }
+
 
 
 
