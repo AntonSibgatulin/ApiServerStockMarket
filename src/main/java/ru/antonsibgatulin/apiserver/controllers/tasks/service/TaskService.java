@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import ru.antonsibgatulin.apiserver.controllers.stockmarket.request.RespondRequest;
 import ru.antonsibgatulin.apiserver.controllers.tasks.request.RequestRespone;
 import ru.antonsibgatulin.apiserver.controllers.tasks.request.RequestTaskCreate;
+import ru.antonsibgatulin.apiserver.data.dilog.Dilog;
+import ru.antonsibgatulin.apiserver.data.dilog.DilogRepository;
 import ru.antonsibgatulin.apiserver.data.notification.Notification;
 import ru.antonsibgatulin.apiserver.data.notification.repository.NotificationRepository;
 import ru.antonsibgatulin.apiserver.data.respond.Respond;
@@ -27,9 +29,9 @@ import javax.swing.text.html.parser.Entity;
 @Service
 public record TaskService(TaskMapper taskMapper, TaskRepository taskRepository, RespondRepository respondRepository,
                           ResponeMapper responeMapper, ActionTaskRepository actionTaskRepository,
-                          NotificationRepository notificationRepository) {
+                          NotificationRepository notificationRepository, DilogRepository dilogRepository) {
 
-    private static final String text_create_purchases="Task was created!";
+    private static final String text_create_purchases = "Task was created!";
 
     private static final String text_user_respond_me = "Somebody respond you on your task";
 
@@ -40,12 +42,12 @@ public record TaskService(TaskMapper taskMapper, TaskRepository taskRepository, 
         var user = ClassUtils.getUser();
         task.setUser(user);
         taskRepository.save(task);
-        var actionTask = new ActionTask(task);
+        var actionTask = new ActionTask(task,user);
 
         actionTaskRepository.save(actionTask);
 
 
-        var notification = new Notification(user,actionTask.getTaskType(),text_create_purchases);
+        var notification = new Notification(user, actionTask.getTaskType(), text_create_purchases);
         notificationRepository.save(notification);
 
 
@@ -110,29 +112,33 @@ public record TaskService(TaskMapper taskMapper, TaskRepository taskRepository, 
         var user = ClassUtils.getUser();
 
         Task task = taskRepository.getTaskById(respondRequest.getId());
-        if(task == null){
+        if (task == null) {
             return ResponseEntity.status(400).body("Error");
         }
 
-        if(task.getUser().getId() == user.getId()){
+        if (task.getUser().getId() == user.getId()) {
             var jsonObject = new JSONObject();
-            jsonObject.put("res","MY_TASK");
+            jsonObject.put("res", "MY_TASK");
             return ResponseEntity.ok(jsonObject);
         }
 
-        var respond = new Respond(user,respondRequest.getMessage(),respondRequest.getPrice(),respondRequest.getCountDay());
+        var respond = new Respond(user, respondRequest.getMessage(), respondRequest.getPrice(), respondRequest.getCountDay());
 
-        var notificated = new Notification(task.getUser(), TaskType.USER_RESPOND_ME,text_user_respond_me);
+        var notificated = new Notification(task.getUser(), TaskType.USER_RESPOND_ME, text_user_respond_me);
 
-        var notificate = new Notification(user,TaskType.USER_RESPONDED_YOU,text_user_responded_you);
+        var notificate = new Notification(user, TaskType.USER_RESPONDED_YOU, text_user_responded_you);
+
 
         task.getResponds().add(respond);
+        task.setCountRespond(task.getCountRespond() + 1);
+        task.setCountLike(task.getCountLike() + 1);
+        task.setCountView(task.getCountView() + 1);
 
         taskRepository.save(task);
+        var dilogue = new Dilog(task.getName(),user,task.getUser());
 
 
-
-
+        dilogRepository.save(dilogue);
         notificationRepository.save(notificate);
         notificationRepository.save(notificated);
 
@@ -148,22 +154,22 @@ public record TaskService(TaskMapper taskMapper, TaskRepository taskRepository, 
         var user = ClassUtils.getUser();
 
         Task task = taskRepository.getTaskById(id);
-        if(task == null){
+        if (task == null) {
             return ResponseEntity.status(400).body("Error");
         }
 
-        if(task.getUser().getId() == user.getId()){
+        if (task.getUser().getId() == user.getId()) {
             var jsonObject = new JSONObject();
-            jsonObject.put("type","MY_TASK");
+            jsonObject.put("type", "MY_TASK");
             return ResponseEntity.ok(jsonObject);
         }
 
 
         var jsonObject = new JSONObject();
 
-        for(Respond respond: task.getRespond()){
-            if(respond.getUser().getId() == user.getId()){
-                jsonObject.put("type","ALREADY_EXIST");
+        for (Respond respond : task.getRespond()) {
+            if (respond.getUser().getId() == user.getId()) {
+                jsonObject.put("type", "ALREADY_EXIST");
                 break;
             }
         }

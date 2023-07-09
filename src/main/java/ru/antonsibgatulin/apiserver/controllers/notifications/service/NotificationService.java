@@ -23,7 +23,7 @@ public record NotificationService(UserRepository userRepository, NotificationRep
     public ResponseEntity get() throws JsonProcessingException {
         var user = ClassUtils.getUser();
 
-        List<Notification> notifications = notificationRepository.findAllByUser(user).stream().toList();
+        List<Notification> notifications = notificationRepository.findAllByUser(user);
 
         for(Notification notification:notifications){
             System.out.println(notification);

@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import ru.antonsibgatulin.apiserver.data.notification.Notification;
 import ru.antonsibgatulin.apiserver.data.profile.Profile;
+import ru.antonsibgatulin.apiserver.data.task.ActionTask;
 import ru.antonsibgatulin.apiserver.data.token.Token;
 
 import java.util.ArrayList;
@@ -50,6 +51,11 @@ public class User implements UserDetails {
     @Transient
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Token token;
+
+    @Transient
+    private List<ActionTask> actionTasks;
+
+
 
     @JsonIgnore
     @Override

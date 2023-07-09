@@ -36,8 +36,10 @@ public class ActionTask {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public ActionTask(Task task) {
+    public ActionTask(Task task,User user) {
         this.task = task;
+        this.user = user;
+
         time=System.currentTimeMillis();
         private_task = false;
         taskType = TaskType.CREATE_PURCHASES;

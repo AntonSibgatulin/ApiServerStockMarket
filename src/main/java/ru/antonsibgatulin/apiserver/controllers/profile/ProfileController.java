@@ -17,16 +17,20 @@ public class ProfileController {
 
 
     @GetMapping("/getProfile/{id}")
-    public ResponseEntity getProfile(@PathParam("id") Long id){
+    public ResponseEntity getProfile(@PathVariable("id") Long id) {
         return profileService.getProfile(id);
 
     }
 
-    @PostMapping({"/getMe","/getMe/"})
-    public User responseEntity(){
+    @PostMapping({"/getMe", "/getMe/"})
+    public User responseEntity() {
         return profileService.getMe();
     }
 
 
+    @PostMapping("/getAllProfile/{id}")
+    public ResponseEntity getAllProfile(@PathParam("id") Long id) {
+        return profileService.getAllProfile(id);
+    }
 
 }
