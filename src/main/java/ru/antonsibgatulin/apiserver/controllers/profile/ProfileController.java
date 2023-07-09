@@ -23,7 +23,7 @@ public class ProfileController {
     }
 
     @PostMapping({"/getMe", "/getMe/"})
-    public User responseEntity() {
+    public ResponseEntity responseEntity() {
         return profileService.getMe();
     }
 

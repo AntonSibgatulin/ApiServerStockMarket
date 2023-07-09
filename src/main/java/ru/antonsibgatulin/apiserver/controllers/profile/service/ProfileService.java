@@ -33,8 +33,8 @@ public record ProfileService(UserRepository userRepository, ActionTaskRepository
     }
 
 
-    public User getMe() {
-        return ClassUtils.getUser();
+    public ResponseEntity getMe() {
+        return getProfile(ClassUtils.getUser().getId());
     }
 
     public ResponseEntity getAllProfile(Long id) {
